@@ -1,12 +1,12 @@
 import { SendOutlined } from "@ant-design/icons";
 import { Select } from "antd";
-import { useMemo } from "react";
+import DaMengIcon from "../data-source/icon/DamengIcon";
+import DB2Icon from "../data-source/icon/DB2Icon";
+import DorisIcon from "../data-source/icon/DorisIcon";
+import KingBaseIcon from "../data-source/icon/KingBaseIcon";
 import MysqlIcon from "../data-source/icon/MysqlIcon";
 import OracleIcon from "../data-source/icon/OracleIcon";
 import PostgreSQL from "../data-source/icon/PsSqlIcon";
-import DorisIcon from "../data-source/icon/DorisIcon";
-import KingBaseIcon from "../data-source/icon/KingBaseIcon";
-import DaMengIcon from "../data-source/icon/DamengIcon";
 import "./index.less";
 // 类型定义
 interface DataSourceType {
@@ -48,6 +48,17 @@ export const generateDataSourceOptions = (): DataSourceType[] => [
       <div style={{ display: "flex", alignItems: "center" }}>
         <PostgreSQL />
         <span style={{ marginLeft: 8 }}>PostGreSQL</span>
+      </div>
+    ),
+  },
+  {
+    value: "DB2",
+    connectorType: "Jdbc",
+    pluginName: "JDBC-DB2",
+    label: (
+      <div style={{ display: "flex", alignItems: "center" }}>
+        <DB2Icon />
+        <span style={{ marginLeft: 8 }}>DB2</span>
       </div>
     ),
   },
@@ -106,7 +117,7 @@ interface DataSourceSelectProps {
   onChange: (value: string, option: any) => void;
   placeholder: string;
   prefix: string;
-  dataSourceOptions: any[],
+  dataSourceOptions: any[];
   width?: string;
 }
 
@@ -128,7 +139,7 @@ export const DataSourceSelect: React.FC<DataSourceSelectProps> = ({
       onChange={onChange}
       suffixIcon={<SendOutlined />}
       style={{ width: width, borderRadius: 24 }}
-      prefix={<span style={{ fontSize: 12,fontWeight: 500 }}>{prefix}</span>}
+      prefix={<span style={{ fontSize: 12, fontWeight: 500 }}>{prefix}</span>}
       filterOption={(input, option) => {
         const labelText =
           typeof option?.label === "string" ? option.label : "MYSQL";
