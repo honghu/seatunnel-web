@@ -33,13 +33,9 @@ function SqlTransformPanel({
   const nodeId = selectedNode?.id;
 
   const title =
-    selectedNode?.data?.title ||
-    selectedNode?.data?.label ||
-    "SQL 脚本";
+    selectedNode?.data?.title || selectedNode?.data?.label || "SQL 脚本";
 
-  const description =
-    selectedNode?.data?.description ||
-    "支持自定义转换 SQL";
+  const description = selectedNode?.data?.description || "支持自定义转换 SQL";
 
   const config = selectedNode?.data?.config || {};
   const meta = selectedNode?.data?.meta || {};
@@ -99,14 +95,11 @@ function SqlTransformPanel({
     /**
      * 根据画布 Edge 获取上下游节点标识。
      */
-    const syncedPluginConfig =
-      syncTransformPluginConfig(nodeId) || {};
+    const syncedPluginConfig = syncTransformPluginConfig(nodeId) || {};
 
-    const pluginInput =
-      syncedPluginConfig.pluginInput;
+    const pluginInput = syncedPluginConfig.pluginInput;
 
-    const pluginOutput =
-      syncedPluginConfig.pluginOutput;
+    const pluginOutput = syncedPluginConfig.pluginOutput;
 
     if (!pluginInput) {
       message.warning("请先连接上游节点");
@@ -153,20 +146,14 @@ function SqlTransformPanel({
     >
       <section className="workflow-panel__section">
         <div className="workflow-panel__section-head">
-          <div className="workflow-panel__section-title">
-            脚本配置
-          </div>
+          <div className="workflow-panel__section-title">脚本配置</div>
 
-          <div className="workflow-panel__section-tip">
-            SQL
-          </div>
+          <div className="workflow-panel__section-tip">SQL</div>
         </div>
 
         <TextArea
           value={sql}
-          onChange={(event) =>
-            handleSqlChange(event.target.value)
-          }
+          onChange={(event) => handleSqlChange(event.target.value)}
           placeholder="请输入 SQL 转换脚本"
           autoSize={{
             minRows: 8,
@@ -175,10 +162,7 @@ function SqlTransformPanel({
         />
 
         <div style={{ marginTop: 12 }}>
-          <Button
-            type="primary"
-            onClick={handleApply}
-          >
+          <Button type="primary" onClick={handleApply}>
             应用脚本
           </Button>
         </div>

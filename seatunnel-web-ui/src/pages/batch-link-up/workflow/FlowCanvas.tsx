@@ -43,7 +43,7 @@ const EDGE_INSERT_INFO_CARD_GAP = 10;
 const insertNodeIconMap: Record<string, React.ReactNode> = {
   FIELDMAPPER: <Braces size={15} />,
   SQL: <Database size={15} />,
-  CONVERTCASE: <Blocks size={15} />,
+  FIELDRENAME: <Blocks size={15} />,
 };
 
 interface EdgeInsertMenuState {

@@ -129,7 +129,7 @@ export const insertableTransformNodes: InsertableTransformNode[] = [
   },
   {
     nodeType: "transform",
-    componentType: "CONVERTCASE",
+    componentType: "FIELDRENAME",
     iconType: "blocks",
     label: "字段重命名",
     description: "字母大小写转换,追加字段的前/后缀",

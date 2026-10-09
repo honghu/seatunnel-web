@@ -15,13 +15,13 @@ interface TransformNodeData {
 const componentTypeTextMap: Record<string, string> = {
   FIELDMAPPER: "字段映射",
   SQL: "SQL 脚本",
-  CONVERTCASE: "字段重命名",
+  FIELDRENAME: "字段重命名",
 };
 
 const componentDescMap: Record<string, string> = {
   FIELDMAPPER: "配置字段对应关系",
   SQL: "支持自定义查询逻辑",
-  CONVERTCASE: "字母大小写转换,追加字段的前/后缀",
+  FIELDRENAME: "字母大小写转换,追加字段的前/后缀",
 };
 
 const themeMap: Record<
@@ -54,7 +54,7 @@ const themeMap: Record<
     selectedGlow: "rgba(124, 58, 237, 0.10)",
     labelColor: "#8A63D2",
   },
-  CONVERTCASE: {
+  FIELDRENAME: {
     dot: "#7C3AED",
     dotShadow: "rgba(124, 58, 237, 0.16)",
     iconColor: "#7C3AED",

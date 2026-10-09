@@ -155,7 +155,7 @@ function ConvertCasePanel({
     refreshNodeSchema(nodeId);
     refreshDownstreamSchemas(nodeId);
 
-    message.success("SQL 脚本已应用");
+    message.success("重命名脚本已应用");
   };
 
   return (

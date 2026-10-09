@@ -719,7 +719,7 @@ export default function Workflow({
                               "application/reactflow",
                               JSON.stringify({
                                 nodeType: "transform",
-                                componentType: "CONVERTCASE",
+                                componentType: "FIELDRENAME",
                                 iconType: "blocks",
                                 label: "字段重命名",
                               })
