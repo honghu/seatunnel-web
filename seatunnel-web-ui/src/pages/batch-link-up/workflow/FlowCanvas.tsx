@@ -1,7 +1,7 @@
-import { SearchOutlined } from '@ant-design/icons';
-import { Dropdown, Input } from 'antd';
-import { Braces, Database } from 'lucide-react';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { SearchOutlined } from "@ant-design/icons";
+import { Dropdown, Input } from "antd";
+import { Blocks, Braces, Database } from "lucide-react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import ReactFlow, {
   Background,
   type Edge,
@@ -9,21 +9,21 @@ import ReactFlow, {
   type Node,
   SelectionMode,
   useStoreApi,
-} from 'reactflow';
-import 'reactflow/dist/style.css';
+} from "reactflow";
+import "reactflow/dist/style.css";
 
-import CanvasToolbar from '../../common/workflow/CanvasToolbar';
+import CanvasToolbar from "../../common/workflow/CanvasToolbar";
 import {
   type InsertableTransformNode,
   insertableTransformNodes,
   TRANSFORM_NODE_DROP_OFFSET,
-} from '../../common/workflow/graph';
-import { ControlMode } from './config';
-import CustomEdge from './edge';
-import useFlowBuilder from './hooks/useFlowBuilder';
-import useNodePlacement from './hooks/useNodePlacement';
-import CustomNode from './nodes';
-import WorkflowPanel from './panel';
+} from "../../common/workflow/graph";
+import { ControlMode } from "./config";
+import CustomEdge from "./edge";
+import useFlowBuilder from "./hooks/useFlowBuilder";
+import useNodePlacement from "./hooks/useNodePlacement";
+import CustomNode from "./nodes";
+import WorkflowPanel from "./panel";
 
 const nodeTypesConfig = {
   custom: CustomNode,
@@ -43,6 +43,7 @@ const EDGE_INSERT_INFO_CARD_GAP = 10;
 const insertNodeIconMap: Record<string, React.ReactNode> = {
   FIELDMAPPER: <Braces size={15} />,
   SQL: <Database size={15} />,
+  CONVERTCASE: <Blocks size={15} />,
 };
 
 interface EdgeInsertMenuState {
@@ -69,7 +70,7 @@ interface FlowCanvasProps {
 function buildInitialGraph(
   params?: any,
   sourceType?: any,
-  targetType?: any,
+  targetType?: any
 ): {
   nodes: Node[];
   edges: Edge[];
@@ -85,72 +86,72 @@ function buildInitialGraph(
   const sourceId = `source-${timestamp}`;
   const sinkId = `sink-${timestamp}`;
 
-  const sourceDbType = sourceType?.dbType || 'MYSQL';
-  const targetDbType = targetType?.dbType || 'MYSQL';
+  const sourceDbType = sourceType?.dbType || "MYSQL";
+  const targetDbType = targetType?.dbType || "MYSQL";
 
   const sourceTitle =
     sourceType?.dbType ||
     sourceType?.pluginName ||
     sourceType?.connectorType ||
-    '输入端';
+    "输入端";
 
   const sinkTitle =
     targetType?.dbType ||
     targetType?.pluginName ||
     targetType?.connectorType ||
-    '输出端';
+    "输出端";
 
   const nodes: Node[] = [
     {
       id: sourceId,
-      type: 'custom',
+      type: "custom",
       position: { x: 100, y: 180 },
       data: {
-        nodeType: 'source',
+        nodeType: "source",
         title: sourceTitle,
-        description: '读取源端数据',
+        description: "读取源端数据",
         dbType: sourceDbType,
         connectorType: sourceType?.connectorType,
         pluginName: sourceType?.pluginName,
         config: {
-          dataSourceId: params?.sourceDataSourceId || '',
+          dataSourceId: params?.sourceDataSourceId || "",
           dbType: sourceType?.dbType,
           connectorType: sourceType?.connectorType,
           pluginName: sourceType?.pluginName,
           pluginOutput: sourceId,
-          readMode: 'table',
+          readMode: "table",
           table: undefined,
-          sql: '',
+          sql: "",
           extraParams: [],
         },
         meta: {
           outputSchema: [],
-          schemaStatus: 'idle',
-          schemaError: '',
+          schemaStatus: "idle",
+          schemaError: "",
         },
       },
     },
     {
       id: sinkId,
-      type: 'custom',
+      type: "custom",
       position: { x: 460, y: 180 },
       data: {
-        nodeType: 'sink',
+        nodeType: "sink",
         title: sinkTitle,
-        description: '写入目标端数据',
+        description: "写入目标端数据",
         dbType: targetDbType,
         connectorType: targetType?.connectorType,
         pluginName: targetType?.pluginName,
         config: {
-          dataSourceId: params?.targetDataSourceId || '',
+          dataSourceId: params?.targetDataSourceId || "",
           autoCreateTable: false,
-          targetMode: 'table',
+          targetMode: "table",
           table: undefined,
-          targetTableName: '',
-          sql: '',
-          writeMode: 'append',
-          primaryKey: '',
-          batchSize: '',
+          targetTableName: "",
+          sql: "",
+          writeMode: "append",
+          primaryKey: "",
+          batchSize: "",
           pluginInput: sinkId,
           extraParams: [],
         },
@@ -163,7 +164,7 @@ function buildInitialGraph(
       id: `${sourceId}-${sinkId}`,
       source: sourceId,
       target: sinkId,
-      type: 'custom',
+      type: "custom",
       data: {},
     },
   ];
@@ -189,13 +190,13 @@ export default function FlowCanvas({
   const initializedRef = useRef(false);
   const [edgeInsertMenu, setEdgeInsertMenu] =
     useState<EdgeInsertMenuState | null>(null);
-  const [edgeInsertSearchText, setEdgeInsertSearchText] = useState('');
+  const [edgeInsertSearchText, setEdgeInsertSearchText] = useState("");
   const [hoveredInsertNode, setHoveredInsertNode] =
     useState<HoveredInsertNodeState | null>(null);
 
   const closeEdgeInsertMenu = useCallback(() => {
     setEdgeInsertMenu(null);
-    setEdgeInsertSearchText('');
+    setEdgeInsertSearchText("");
     setHoveredInsertNode(null);
   }, []);
 
@@ -205,7 +206,7 @@ export default function FlowCanvas({
       payload: {
         flowPosition: { x: number; y: number };
         screenPosition: { x: number; y: number };
-      },
+      }
     ) => {
       flow.selectEdge(edgeId);
       setEdgeInsertMenu({
@@ -214,7 +215,7 @@ export default function FlowCanvas({
         screenPosition: payload.screenPosition,
       });
     },
-    [flow.selectEdge],
+    [flow.selectEdge]
   );
 
   const handleInsertNodeFromMenu = useCallback(
@@ -224,73 +225,63 @@ export default function FlowCanvas({
       flow.insertNodeOnEdge(
         edgeInsertMenu.edgeId,
         edgeInsertMenu.flowPosition,
-        nodeConfig,
+        nodeConfig
       );
       closeEdgeInsertMenu();
     },
-    [closeEdgeInsertMenu, edgeInsertMenu, flow.insertNodeOnEdge],
+    [closeEdgeInsertMenu, edgeInsertMenu, flow.insertNodeOnEdge]
   );
 
-  const edgeInsertMenuNodes = useMemo(
-    () => {
-      const normalizedSearchText = edgeInsertSearchText.trim().toLowerCase();
+  const edgeInsertMenuNodes = useMemo(() => {
+    const normalizedSearchText = edgeInsertSearchText.trim().toLowerCase();
 
-      if (!normalizedSearchText) return insertableTransformNodes;
+    if (!normalizedSearchText) return insertableTransformNodes;
 
-      return insertableTransformNodes.filter((nodeConfig) =>
-        [
-          nodeConfig.label,
-          nodeConfig.description,
-          nodeConfig.componentType,
-          nodeConfig.nodeType,
-        ]
-          .filter((value): value is string => Boolean(value))
-          .some((value) => value.toLowerCase().includes(normalizedSearchText)),
-      );
-    },
-    [edgeInsertSearchText],
-  );
+    return insertableTransformNodes.filter((nodeConfig) =>
+      [
+        nodeConfig.label,
+        nodeConfig.description,
+        nodeConfig.componentType,
+        nodeConfig.nodeType,
+      ]
+        .filter((value): value is string => Boolean(value))
+        .some((value) => value.toLowerCase().includes(normalizedSearchText))
+    );
+  }, [edgeInsertSearchText]);
 
-  const edgeInsertMenuPosition = useMemo(
-    () => {
-      if (!edgeInsertMenu) return { left: 0, top: 0 };
+  const edgeInsertMenuPosition = useMemo(() => {
+    if (!edgeInsertMenu) return { left: 0, top: 0 };
 
-      return {
-        left: edgeInsertMenu.screenPosition.x + EDGE_INSERT_MENU_GAP,
-        top: edgeInsertMenu.screenPosition.y,
-      };
-    },
-    [edgeInsertMenu],
-  );
+    return {
+      left: edgeInsertMenu.screenPosition.x + EDGE_INSERT_MENU_GAP,
+      top: edgeInsertMenu.screenPosition.y,
+    };
+  }, [edgeInsertMenu]);
 
-  const edgeInsertInfoCardPosition = useMemo(
-    () => {
-      if (!hoveredInsertNode) return { left: 0, top: 0 };
+  const edgeInsertInfoCardPosition = useMemo(() => {
+    if (!hoveredInsertNode) return { left: 0, top: 0 };
 
-      const rightSideLeft =
-        hoveredInsertNode.itemRect.right + EDGE_INSERT_INFO_CARD_GAP;
-      const leftSideLeft =
-        hoveredInsertNode.itemRect.left -
-        EDGE_INSERT_INFO_CARD_WIDTH -
-        EDGE_INSERT_INFO_CARD_GAP;
-      const hasRightSpace =
-        rightSideLeft + EDGE_INSERT_INFO_CARD_WIDTH <= window.innerWidth - 8;
+    const rightSideLeft =
+      hoveredInsertNode.itemRect.right + EDGE_INSERT_INFO_CARD_GAP;
+    const leftSideLeft =
+      hoveredInsertNode.itemRect.left -
+      EDGE_INSERT_INFO_CARD_WIDTH -
+      EDGE_INSERT_INFO_CARD_GAP;
+    const hasRightSpace =
+      rightSideLeft + EDGE_INSERT_INFO_CARD_WIDTH <= window.innerWidth - 8;
 
-      return {
-        left: hasRightSpace ? rightSideLeft : Math.max(8, leftSideLeft),
-        top:
-          hoveredInsertNode.itemRect.top +
-          hoveredInsertNode.itemRect.height / 2,
-      };
-    },
-    [hoveredInsertNode],
-  );
+    return {
+      left: hasRightSpace ? rightSideLeft : Math.max(8, leftSideLeft),
+      top:
+        hoveredInsertNode.itemRect.top + hoveredInsertNode.itemRect.height / 2,
+    };
+  }, [hoveredInsertNode]);
 
   const interactiveEdges = useMemo(
     () =>
       flow.edges.map((edge) => ({
         ...edge,
-        type: edge.type || 'custom',
+        type: edge.type || "custom",
         selected: edge.id === flow.selectedEdgeId,
         data: {
           ...(edge.data || {}),
@@ -306,7 +297,7 @@ export default function FlowCanvas({
       flow.onEdgeMouseEnter,
       flow.onEdgeMouseLeave,
       openEdgeInsertMenu,
-    ],
+    ]
   );
 
   useEffect(() => {
@@ -342,14 +333,14 @@ export default function FlowCanvas({
   const onDragOver = (event: React.DragEvent<HTMLDivElement>) => {
     closeEdgeInsertMenu();
     event.preventDefault();
-    event.dataTransfer.dropEffect = 'move';
+    event.dataTransfer.dropEffect = "move";
   };
 
   const onDrop = (event: React.DragEvent<HTMLDivElement>) => {
     closeEdgeInsertMenu();
     event.preventDefault();
 
-    const raw = event.dataTransfer.getData('application/reactflow');
+    const raw = event.dataTransfer.getData("application/reactflow");
     if (!raw) return;
 
     const data = JSON.parse(raw);
@@ -371,13 +362,10 @@ export default function FlowCanvas({
     });
   };
 
-  const handlePaneClick = useCallback(
-    () => {
-      closeEdgeInsertMenu();
-      flow.onPaneClick();
-    },
-    [closeEdgeInsertMenu, flow.onPaneClick],
-  );
+  const handlePaneClick = useCallback(() => {
+    closeEdgeInsertMenu();
+    flow.onPaneClick();
+  }, [closeEdgeInsertMenu, flow.onPaneClick]);
 
   const clearSelectionRect = useCallback(() => {
     store.setState({
@@ -397,15 +385,15 @@ export default function FlowCanvas({
     if (!edgeInsertMenu) return;
 
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
+      if (event.key === "Escape") {
         closeEdgeInsertMenu();
       }
     };
 
-    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown);
 
     return () => {
-      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener("keydown", handleKeyDown);
     };
   }, [closeEdgeInsertMenu, edgeInsertMenu]);
 
@@ -413,9 +401,9 @@ export default function FlowCanvas({
     <div
       className="relative h-full w-full min-w-[960px]"
       style={{
-        height: '100%',
-        width: '100%',
-        cursor: flow.controlMode === ControlMode.Hand ? 'grab' : 'default',
+        height: "100%",
+        width: "100%",
+        cursor: flow.controlMode === ControlMode.Hand ? "grab" : "default",
       }}
       ref={placement.reactFlowWrapper}
       onDragOver={onDragOver}
@@ -478,7 +466,7 @@ export default function FlowCanvas({
           maxZoom: 0.75,
         }}
         className={`reactflow-wrapper ${
-          flow.controlMode === ControlMode.Hand ? 'hand-mode' : 'pointer-mode'
+          flow.controlMode === ControlMode.Hand ? "hand-mode" : "pointer-mode"
         }`}
       >
         <Background gap={[14, 14]} size={2} color="#8585ad26" />
@@ -497,17 +485,17 @@ export default function FlowCanvas({
           onMouseDown={(event) => event.stopPropagation()}
           onClick={(event) => event.stopPropagation()}
           style={{
-            position: 'fixed',
+            position: "fixed",
             left: edgeInsertMenuPosition.left,
             top: edgeInsertMenuPosition.top,
             width: EDGE_INSERT_MENU_WIDTH,
             maxHeight: 520,
             padding: 8,
-            background: '#fff',
-            border: '1px solid #e4e7ec',
+            background: "#fff",
+            border: "1px solid #e4e7ec",
             borderRadius: 8,
-            boxShadow: '0 10px 30px rgba(16, 24, 40, 0.16)',
-            transform: 'translateY(-50%)',
+            boxShadow: "0 10px 30px rgba(16, 24, 40, 0.16)",
+            transform: "translateY(-50%)",
             zIndex: 1000,
           }}
         >
@@ -515,7 +503,7 @@ export default function FlowCanvas({
             allowClear
             autoFocus
             className="edge-insert-search"
-            prefix={<SearchOutlined style={{ color: '#98a2b3' }} />}
+            prefix={<SearchOutlined style={{ color: "#98a2b3" }} />}
             placeholder="搜索节点"
             value={edgeInsertSearchText}
             onChange={(event) => setEdgeInsertSearchText(event.target.value)}
@@ -523,7 +511,7 @@ export default function FlowCanvas({
 
           <div className="edge-insert-divider" />
 
-          <div style={{ maxHeight: 456, overflowY: 'auto' }}>
+          <div style={{ maxHeight: 456, overflowY: "auto" }}>
             {edgeInsertMenuNodes.map((nodeConfig) => (
               <div
                 key={nodeConfig.componentType}
@@ -537,13 +525,13 @@ export default function FlowCanvas({
                 }}
                 onMouseLeave={() => setHoveredInsertNode(null)}
                 style={{
-                  display: 'flex',
-                  alignItems: 'center',
+                  display: "flex",
+                  alignItems: "center",
                   gap: 8,
                   height: 32,
-                  padding: '0 8px',
+                  padding: "0 8px",
                   borderRadius: 6,
-                  cursor: 'pointer',
+                  cursor: "pointer",
                 }}
               >
                 <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
@@ -561,9 +549,9 @@ export default function FlowCanvas({
             {edgeInsertMenuNodes.length === 0 && (
               <div
                 style={{
-                  padding: '16px 0',
-                  textAlign: 'center',
-                  color: '#98a2b3',
+                  padding: "16px 0",
+                  textAlign: "center",
+                  color: "#98a2b3",
                   fontSize: 13,
                 }}
               >
@@ -578,11 +566,11 @@ export default function FlowCanvas({
         <div
           className="edge-insert-info-card nodrag nopan"
           style={{
-            position: 'fixed',
+            position: "fixed",
             left: edgeInsertInfoCardPosition.left,
             top: edgeInsertInfoCardPosition.top,
             width: EDGE_INSERT_INFO_CARD_WIDTH,
-            transform: 'translateY(-50%)',
+            transform: "translateY(-50%)",
             zIndex: 1001,
           }}
         >
@@ -602,15 +590,15 @@ export default function FlowCanvas({
         overlay={flow.renderContextMenu()}
         open={flow.menuVisible}
         onOpenChange={flow.closeContextMenu}
-        trigger={['contextMenu']}
+        trigger={["contextMenu"]}
       >
         <div
           style={{
-            position: 'fixed',
+            position: "fixed",
             left: flow.menuPosition.x,
             top: flow.menuPosition.y,
-            width: '1px',
-            height: '1px',
+            width: "1px",
+            height: "1px",
           }}
         />
       </Dropdown>

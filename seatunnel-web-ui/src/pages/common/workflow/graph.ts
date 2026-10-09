@@ -1,4 +1,4 @@
-import type { Edge, Node, XYPosition } from 'reactflow';
+import type { Edge, Node, XYPosition } from "reactflow";
 
 export interface TransformNodeConfig {
   position: XYPosition;
@@ -9,16 +9,16 @@ export interface TransformNodeConfig {
 }
 
 const createTransformData = ({
-  nodeType = 'transform',
+  nodeType = "transform",
   label,
   componentType,
   iconType,
-}: Omit<TransformNodeConfig, 'position'>) => {
-  if (componentType === 'FIELDMAPPER') {
+}: Omit<TransformNodeConfig, "position">) => {
+  if (componentType === "FIELDMAPPER") {
     return {
       label,
       title: label,
-      description: '配置字段映射关系',
+      description: "配置字段映射关系",
       nodeType,
       componentType,
       iconType,
@@ -29,28 +29,28 @@ const createTransformData = ({
       meta: {
         inputSchema: [],
         outputSchema: [],
-        schemaStatus: 'idle',
-        schemaError: '',
+        schemaStatus: "idle",
+        schemaError: "",
       },
     };
   }
 
-  if (componentType === 'SQL') {
+  if (componentType === "SQL") {
     return {
       label,
       title: label,
-      description: '支持自定义查询逻辑',
+      description: "支持自定义查询逻辑",
       nodeType,
       componentType,
       iconType,
       config: {
-        sql: '',
+        sql: "",
       },
       meta: {
         inputSchema: [],
         outputSchema: [],
-        schemaStatus: 'idle',
-        schemaError: '',
+        schemaStatus: "idle",
+        schemaError: "",
       },
     };
   }
@@ -64,15 +64,15 @@ const createTransformData = ({
     meta: {
       inputSchema: [],
       outputSchema: [],
-      schemaStatus: 'idle',
-      schemaError: '',
+      schemaStatus: "idle",
+      schemaError: "",
     },
   };
 };
 
 export const createTransformNode = ({
   position,
-  nodeType = 'transform',
+  nodeType = "transform",
   label,
   componentType,
   iconType,
@@ -83,7 +83,7 @@ export const createTransformNode = ({
 
   return {
     id,
-    type: 'custom',
+    type: "custom",
     position,
     data: createTransformData({
       nodeType,
@@ -97,35 +97,42 @@ export const createTransformNode = ({
 export const createWorkflowEdge = (
   source: string,
   target: string,
-  data?: Record<string, any>,
+  data?: Record<string, any>
 ): Edge => ({
   id: `${source}-${target}-${Date.now()}-${Math.random()
     .toString(36)
     .slice(2, 8)}`,
   source,
   target,
-  type: 'custom',
+  type: "custom",
   data: data || {},
 });
 
-export type InsertableTransformNode = Omit<TransformNodeConfig, 'position'> & {
+export type InsertableTransformNode = Omit<TransformNodeConfig, "position"> & {
   description: string;
 };
 
 export const insertableTransformNodes: InsertableTransformNode[] = [
   {
-    nodeType: 'transform',
-    componentType: 'FIELDMAPPER',
-    iconType: 'braces',
-    label: '字段映射',
-    description: '配置字段对应关系',
+    nodeType: "transform",
+    componentType: "FIELDMAPPER",
+    iconType: "braces",
+    label: "字段映射",
+    description: "配置字段对应关系",
   },
   {
-    nodeType: 'transform',
-    componentType: 'SQL',
-    iconType: 'database',
-    label: 'SQL 脚本',
-    description: '支持自定义查询',
+    nodeType: "transform",
+    componentType: "SQL",
+    iconType: "database",
+    label: "SQL 脚本",
+    description: "支持自定义查询",
+  },
+  {
+    nodeType: "transform",
+    componentType: "CONVERTCASE",
+    iconType: "blocks",
+    label: "字段重命名",
+    description: "字母大小写转换,追加字段的前/后缀",
   },
 ];
 
@@ -140,9 +147,9 @@ export const TRANSFORM_NODE_DROP_OFFSET = {
 };
 
 const getNodePriority = (node: Node) => {
-  if (node.data?.nodeType === 'source') return 0;
-  if (node.data?.nodeType === 'transform') return 1;
-  if (node.data?.nodeType === 'sink') return 2;
+  if (node.data?.nodeType === "source") return 0;
+  if (node.data?.nodeType === "transform") return 1;
+  if (node.data?.nodeType === "sink") return 2;
   return 3;
 };
 
@@ -180,7 +187,7 @@ export const layoutWorkflowGraph = (nodes: Node[], edges: Edge[]): Node[] => {
 
   const nodeById = new Map(nodes.map((node) => [node.id, node]));
   const queue = sortNodesByWorkflowRole(
-    nodes.filter((node) => (incomingCount.get(node.id) || 0) === 0),
+    nodes.filter((node) => (incomingCount.get(node.id) || 0) === 0)
   );
   const layerMap = new Map<string, number>();
 
@@ -196,7 +203,10 @@ export const layoutWorkflowGraph = (nodes: Node[], edges: Edge[]): Node[] => {
     const currentLayer = layerMap.get(current.id) || 0;
 
     (outgoingMap.get(current.id) || []).forEach((targetId) => {
-      layerMap.set(targetId, Math.max(layerMap.get(targetId) || 0, currentLayer + 1));
+      layerMap.set(
+        targetId,
+        Math.max(layerMap.get(targetId) || 0, currentLayer + 1)
+      );
       incomingCount.set(targetId, (incomingCount.get(targetId) || 0) - 1);
 
       if ((incomingCount.get(targetId) || 0) === 0) {
@@ -223,10 +233,10 @@ export const layoutWorkflowGraph = (nodes: Node[], edges: Edge[]): Node[] => {
   });
 
   const layerEntries = [...layers.entries()].sort(
-    ([leftLayer], [rightLayer]) => leftLayer - rightLayer,
+    ([leftLayer], [rightLayer]) => leftLayer - rightLayer
   );
   const maxLayerSize = Math.max(
-    ...layerEntries.map(([, layerNodes]) => layerNodes.length),
+    ...layerEntries.map(([, layerNodes]) => layerNodes.length)
   );
   const canvasCenterY =
     ((maxLayerSize - 1) * (NODE_HEIGHT + ROW_GAP)) / 2 + 120;

@@ -719,16 +719,16 @@ export default function Workflow({
                               "application/reactflow",
                               JSON.stringify({
                                 nodeType: "transform",
-                                componentType: "convertCase",
-                                iconType: "database",
+                                componentType: "CONVERTCASE",
+                                iconType: "blocks",
                                 label: "字段重命名",
                               })
                             );
                             event.dataTransfer.effectAllowed = "move";
                           }}
                         >
-                          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-b from-violet-50 to-violet-100 text-violet-600">
-                            <Database size={16} />
+                          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-b from-violet-50 to-violet-100 text-violet-900">
+                            <Blocks size={16} />
                           </div>
 
                           <div className="min-w-0">
@@ -736,7 +736,7 @@ export default function Workflow({
                               字段重命名
                             </div>
                             <div className="mt-1 text-[12px] leading-[1.4] text-slate-500">
-                              支持自定义查询
+                              字母大小写转换,追加字段的前/后缀
                             </div>
                           </div>
                         </div>

@@ -32,7 +32,7 @@ function TransformPanel(props: Props) {
   if (componentType === "SQL") {
     return <SqlTransformPanel {...props} />;
   }
-  if (componentType === "convertCase") {
+  if (componentType === "CONVERTCASE") {
     return <ConvertCasePanel {...props} />;
   }
 

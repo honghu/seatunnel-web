@@ -1,4 +1,4 @@
-import { Input, message } from "antd";
+import { Button, Form, Input, message, Radio } from "antd";
 import { memo, useEffect, useMemo } from "react";
 import PanelShell from "../PanelShell";
 
@@ -23,7 +23,7 @@ interface Props {
   };
 }
 
-function SqlTransformPanel({
+function ConvertCasePanel({
   selectedNode,
   onClose,
   onNodeDataChange,
@@ -37,10 +37,13 @@ function SqlTransformPanel({
   const title =
     selectedNode?.data?.title || selectedNode?.data?.label || "SQL 脚本";
 
-  const description = selectedNode?.data?.description || "支持自定义转换 SQL";
+  const description =
+    selectedNode?.data?.description || "字母大小写转换,追加字段的前/后缀";
 
   const config = selectedNode?.data?.config || {};
-  const sql = config.sql || "";
+  const convertCase = config.convertCase || "";
+  const prefix = config.prefix || "";
+  const suffix = config.suffix || "";
 
   const upstreamSchema = useMemo(() => {
     if (!nodeId) {
@@ -65,7 +68,15 @@ function SqlTransformPanel({
     });
   }, [nodeId, upstreamSchema, onNodeDataChange]);
 
-  const handleSqlChange = (value: string) => {
+  const handleSqlChange = ({
+    convertCase,
+    prefix,
+    suffix,
+  }: {
+    convertCase?: string;
+    prefix?: string;
+    suffix?: string;
+  }) => {
     if (!nodeId) {
       return;
     }
@@ -79,7 +90,9 @@ function SqlTransformPanel({
     onNodeDataChange(nodeId, {
       config: {
         ...config,
-        sql: value,
+        convertCase,
+        prefix,
+        suffix,
       },
     });
   };
@@ -90,12 +103,13 @@ function SqlTransformPanel({
       return;
     }
 
-    const nextSql = String(sql || "").trim();
-
-    if (!nextSql) {
-      message.warning("请输入 SQL 转换脚本");
-      return;
-    }
+    const nextConvertCase = String(convertCase || "");
+    const nextPrefix = String(prefix || "").trim();
+    const nextSuffix = String(suffix || "").trim();
+    // if (!nextSql) {
+    //   message.warning("请输入 SQL 转换脚本");
+    //   return;
+    // }
 
     /**
      * 参考 FieldMapper：
@@ -119,9 +133,9 @@ function SqlTransformPanel({
     onNodeDataChange(nodeId, {
       config: {
         ...config,
-
-        sql: nextSql,
-
+        convertCase: nextConvertCase,
+        prefix: nextPrefix,
+        suffix: nextSuffix,
         /**
          * 前端节点配置使用 camelCase。
          */
@@ -152,12 +166,78 @@ function SqlTransformPanel({
       desc="基于上游字段编写自定义转换逻辑"
       heroTitle={title}
       heroDesc={description}
-      heroTag="SQL"
+      heroTag="TRANSFORM"
       onClose={onClose}
     >
-      11111
+      <section className="workflow-panel__section">
+        <div className="workflow-panel__section-head">
+          <div className="workflow-panel__section-title">脚本配置</div>
+        </div>
+        {/* <div className="workflow-panel__section-tip">字母大小写转换</div> */}
+
+        {/* <TextArea
+          value={convertCase}
+          onChange={(event) => handleSqlChange(event.target.value)}
+          placeholder="请输入 SQL 转换脚本"
+          autoSize={{
+            minRows: 10,
+            maxRows: 16,
+          }}
+        /> */}
+        <Radio.Group
+          value={convertCase}
+          onChange={(event) => {
+            handleSqlChange({
+              convertCase: event.target.value,
+              prefix,
+              suffix,
+            });
+          }}
+          options={[
+            { label: "字母转大写", value: "UPPER" },
+            { label: "字母转小写", value: "LOWER" },
+          ]}
+        />
+        <Form>
+          <Form.Item label="追加到字段名的前缀">
+            <Input
+              value={prefix}
+              onChange={(event) =>
+                handleSqlChange({
+                  convertCase,
+                  prefix: event.target.value,
+                  suffix,
+                })
+              }
+              placeholder="请输入追加到字段名的前缀"
+              // value={prefix}
+              // onChange={(event) => handleSqlChange(event.target.value)}
+            />
+          </Form.Item>
+          <Form.Item label="追加到字段名的后缀">
+            <Input
+              placeholder="请输入追加到字段名的后缀"
+              value={suffix}
+              onChange={(event) =>
+                handleSqlChange({
+                  suffix: event.target.value,
+                  convertCase,
+                  prefix,
+                })
+              }
+              // value={prefix}
+              // onChange={(event) => handleSqlChange(event.target.value)}
+            />
+          </Form.Item>
+        </Form>
+        <div style={{ marginTop: 12 }}>
+          <Button type="primary" onClick={handleApply}>
+            应用脚本
+          </Button>
+        </div>
+      </section>
     </PanelShell>
   );
 }
 
-export default memo(SqlTransformPanel);
+export default memo(ConvertCasePanel);
