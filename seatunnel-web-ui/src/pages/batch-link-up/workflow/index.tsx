@@ -126,9 +126,11 @@ const normalizeSavedState = (
 ): JobDefinitionState => {
   return {
     editorSyncState: "SYNCED",
-    releaseState: state?.releaseState || currentState?.releaseState || "OFFLINE",
+    releaseState:
+      state?.releaseState || currentState?.releaseState || "OFFLINE",
     jobVersion: state?.jobVersion ?? currentState?.jobVersion ?? null,
-    contentVersion: state?.contentVersion ?? currentState?.contentVersion ?? null,
+    contentVersion:
+      state?.contentVersion ?? currentState?.contentVersion ?? null,
   };
 };
 
@@ -189,8 +191,8 @@ export default function Workflow({
 
   const [runVisible, setRunVisible] = useState(false);
 
-  const [definitionState, setDefinitionState] = useState<JobDefinitionState>(() =>
-    normalizeInitialState(params?.state, pageScene)
+  const [definitionState, setDefinitionState] = useState<JobDefinitionState>(
+    () => normalizeInitialState(params?.state, pageScene)
   );
 
   const [baselineSignature, setBaselineSignature] = useState<string>("");
@@ -247,14 +249,7 @@ export default function Workflow({
         workflowGraph: nextWorkflowGraph,
       })
     );
-  }, [
-    contextKey,
-    params,
-    pageScene,
-    basicConfig,
-    scheduleConfig,
-    envConfig,
-  ]);
+  }, [contextKey, params, pageScene, basicConfig, scheduleConfig, envConfig]);
 
   const hasPersistedDefinition =
     !!jobDefinitionId && definitionState?.editorSyncState === "SYNCED";
@@ -272,8 +267,7 @@ export default function Workflow({
 
   const { checkStat, checkGroups } = useFlowChecks(workflowGraph.nodes || []);
 
-  const canRun =
-    editorSyncState === "SYNCED" && !publishLoading && !runLoading;
+  const canRun = editorSyncState === "SYNCED" && !publishLoading && !runLoading;
 
   const runDisabledReason =
     editorSyncState === "UNPUBLISHED"
@@ -713,6 +707,36 @@ export default function Workflow({
                             </div>
                             <div className="mt-1 text-[12px] leading-[1.4] text-slate-500">
                               支持自定义查询
+                            </div>
+                          </div>
+                        </div>
+
+                        <div
+                          className="flex cursor-grab select-none items-center gap-3 rounded-[14px] border border-slate-200 bg-white p-3 shadow-[0_2px_8px_rgba(15,23,42,0.04)] transition-all duration-200 hover:-translate-y-px hover:border-slate-300 hover:shadow-[0_10px_24px_rgba(15,23,42,0.08)] active:scale-[0.99] active:cursor-grabbing"
+                          draggable
+                          onDragStart={(event) => {
+                            event.dataTransfer.setData(
+                              "application/reactflow",
+                              JSON.stringify({
+                                nodeType: "transform",
+                                componentType: "FIELDRENAME",
+                                iconType: "blocks",
+                                label: "字段重命名",
+                              })
+                            );
+                            event.dataTransfer.effectAllowed = "move";
+                          }}
+                        >
+                          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-b from-violet-50 to-violet-100 text-violet-900">
+                            <Blocks size={16} />
+                          </div>
+
+                          <div className="min-w-0">
+                            <div className="text-[13px] font-semibold leading-[1.2] text-slate-900">
+                              字段重命名
+                            </div>
+                            <div className="mt-1 text-[12px] leading-[1.4] text-slate-500">
+                              字母大小写转换,追加字段的前/后缀
                             </div>
                           </div>
                         </div>

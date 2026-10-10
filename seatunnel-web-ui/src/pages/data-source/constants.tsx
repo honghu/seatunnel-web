@@ -47,6 +47,12 @@ export const dataSourceGroupList: DataSourceGroup[] = [
       },
       {
         onlyDiScript: false,
+        dbType: "DB2",
+        type: "DB2",
+        connectorType: "Jdbc",
+      },
+      {
+        onlyDiScript: false,
         dbType: "KINGBASE",
         type: "KINGBASE",
         connectorType: "Jdbc",

@@ -12,28 +12,31 @@
 
 export default {
   dev: {
-    '/api/': {
-      target: 'http://localhost:9527',
+    "/api/": {
+      // target: "http://localhost:9527",
+      target: "http://10.1.251.13:9527",
       changeOrigin: true,
-      pathRewrite: { '^/api': '/api' },
+      pathRewrite: { "^/api": "/api" },
     },
-    '/profile/avatar/': {
+    "/profile/avatar/": {
       changeOrigin: true,
-      target: 'http://localhost:80',
+      target: "http://10.1.251.13:9527",
+      // target: "http://localhost:80",
     },
   },
-  '/api/': {
-      test: {
-      target: 'http://localhost:80',
+  "/api/": {
+    test: {
+      target: "http://10.1.251.13:9527",
+      // target: "http://localhost:80",
       changeOrigin: true,
-      pathRewrite: { '^': '' },
+      pathRewrite: { "^": "" },
     },
   },
   pre: {
-    '/api/': {
-      target: 'your pre url',
+    "/api/": {
+      target: "http://10.1.251.13:9527",
       changeOrigin: true,
-      pathRewrite: { '^': '' },
+      pathRewrite: { "^": "" },
     },
   },
 };

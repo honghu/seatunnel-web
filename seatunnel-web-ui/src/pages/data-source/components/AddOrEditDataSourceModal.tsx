@@ -1,21 +1,13 @@
 import { useIntl } from "@umijs/max";
 import { Button, Form, message, Modal } from "antd";
-import React, {
-  forwardRef,
-  useImperativeHandle,
-  useRef,
-  useState,
-} from "react";
-import DynamicDataSourceForm from "./DynamicDataSourceForm";
-import DatabaseIcons from "../icon/DatabaseIcons";
+import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 import { dataSourceGroupList } from "../constants";
+import DatabaseIcons from "../icon/DatabaseIcons";
 import {
   createDataSource,
   testDataSourceConnectionWithParams,
   updateDataSource,
 } from "../service";
-import { buildSubmitPayload, parseOriginalJson } from "../utils";
-import DataSourceTypeSelector from "./DataSourceTypeSelector";
 import type {
   DataSourceFormValues,
   DataSourceModalOpenPayload,
@@ -23,6 +15,9 @@ import type {
   DataSourceOperateType,
   DataSourceRecord,
 } from "../types";
+import { buildSubmitPayload, parseOriginalJson } from "../utils";
+import DataSourceTypeSelector from "./DataSourceTypeSelector";
+import DynamicDataSourceForm from "./DynamicDataSourceForm";
 
 const AddOrEditDataSourceModal = forwardRef<DataSourceModalRef>((_, ref) => {
   const intl = useIntl();
@@ -163,7 +158,6 @@ const AddOrEditDataSourceModal = forwardRef<DataSourceModalRef>((_, ref) => {
 
         return;
       }
-
     } catch (error: any) {
       if (error?.errorFields) return;
     }
@@ -191,7 +185,6 @@ const AddOrEditDataSourceModal = forwardRef<DataSourceModalRef>((_, ref) => {
 
       if (isEditMode) {
         if (!currentRecord?.id) {
-          
           return;
         }
 
@@ -385,12 +378,18 @@ const AddOrEditDataSourceModal = forwardRef<DataSourceModalRef>((_, ref) => {
     >
       {showFormStep ? (
         <DynamicDataSourceForm
-          key={`${operateType}-${selectedDbType}-${currentRecord?.id || "create"}`}
+          key={`${operateType}-${selectedDbType}-${
+            currentRecord?.id || "create"
+          }`}
           dbType={selectedDbType}
           form={basicForm}
           configForm={configForm}
           operateType={operateType}
-          initialConfig={isEditMode ? parseOriginalJson(currentRecord?.originalJson) : undefined}
+          initialConfig={
+            isEditMode
+              ? parseOriginalJson(currentRecord?.originalJson)
+              : undefined
+          }
         />
       ) : (
         <div style={{ padding: "4px 0 8px" }}>

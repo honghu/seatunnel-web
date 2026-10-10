@@ -1,4 +1,5 @@
 import { memo } from "react";
+import ConvertCasePanel from "../ConvertCasePanel";
 import FieldMapperPanel from "../FieldMapperPanel";
 import SqlTransformPanel from "../SqlTransformPanel";
 
@@ -31,8 +32,11 @@ function TransformPanel(props: Props) {
   if (componentType === "SQL") {
     return <SqlTransformPanel {...props} />;
   }
+  if (componentType === "FIELDRENAME") {
+    return <ConvertCasePanel {...props} />;
+  }
 
- return null;
+  return null;
 }
 
 export default memo(TransformPanel);

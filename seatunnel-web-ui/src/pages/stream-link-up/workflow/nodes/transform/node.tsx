@@ -1,7 +1,7 @@
+import { Blocks, Braces, Database } from "lucide-react";
 import type { FC } from "react";
 import React, { useMemo, useState } from "react";
-import { Handle, Position, NodeProps } from "reactflow";
-import { Braces, Database } from "lucide-react";
+import { Handle, NodeProps, Position } from "reactflow";
 
 interface TransformNodeData {
   title?: string;
@@ -15,11 +15,13 @@ interface TransformNodeData {
 const componentTypeTextMap: Record<string, string> = {
   FIELDMAPPER: "字段映射",
   SQL: "SQL 脚本",
+  FIELDRENAME: "字段重命名",
 };
 
 const componentDescMap: Record<string, string> = {
   FIELDMAPPER: "配置字段对应关系",
   SQL: "支持自定义查询逻辑",
+  FIELDRENAME: "字母大小写转换,追加字段的前/后缀",
 };
 
 const themeMap: Record<
@@ -52,6 +54,15 @@ const themeMap: Record<
     selectedGlow: "rgba(124, 58, 237, 0.10)",
     labelColor: "#8A63D2",
   },
+  FIELDRENAME: {
+    dot: "#7C3AED",
+    dotShadow: "rgba(124, 58, 237, 0.16)",
+    iconColor: "#7C3AED",
+    iconBg: "linear-gradient(180deg, #F3E8FF 0%, #EDE0FF 100%)",
+    selectedBorder: "#D9C2FF",
+    selectedGlow: "rgba(124, 58, 237, 0.10)",
+    labelColor: "#8A63D2",
+  },
   DEFAULT: {
     dot: "#98A2B3",
     dotShadow: "rgba(152, 162, 179, 0.14)",
@@ -63,7 +74,10 @@ const themeMap: Record<
   },
 };
 
-const TransformNode: FC<NodeProps<TransformNodeData>> = ({ data, selected }) => {
+const TransformNode: FC<NodeProps<TransformNodeData>> = ({
+  data,
+  selected,
+}) => {
   const [hovered, setHovered] = useState(false);
 
   const componentType = data?.componentType || "UNKNOWN";
@@ -80,14 +94,17 @@ const TransformNode: FC<NodeProps<TransformNodeData>> = ({ data, selected }) => 
   }, [data?.title, data?.label, componentType]);
 
   const displayDesc = useMemo(() => {
-    return data?.description || componentDescMap[componentType] || "转换处理节点";
+    return (
+      data?.description || componentDescMap[componentType] || "转换处理节点"
+    );
   }, [data?.description, componentType]);
 
   const iconNode = useMemo(() => {
     switch (iconType) {
       case "database":
         return <Database size={16} color={theme.iconColor} strokeWidth={2.2} />;
-      case "braces":
+      case "blocks":
+        return <Blocks size={16} color={theme.iconColor} strokeWidth={2.2} />;
       default:
         return <Braces size={16} color={theme.iconColor} strokeWidth={2.2} />;
     }
