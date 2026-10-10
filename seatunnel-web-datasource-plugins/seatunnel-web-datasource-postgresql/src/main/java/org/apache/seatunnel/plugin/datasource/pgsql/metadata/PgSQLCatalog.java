@@ -94,7 +94,7 @@ public class PgSQLCatalog extends AbstractJdbcCatalog {
 
         String schemaName = resolveSchemaName(tablePath);
 
-        return quoteIdentifier(schemaName) + "." + quoteIdentifier(tablePath.getTableName());
+        return quoteIdentifier(tablePath.getDatabaseName()) + "." +quoteIdentifier(schemaName) + "." + quoteIdentifier(tablePath.getTableName());
     }
 
     @Override

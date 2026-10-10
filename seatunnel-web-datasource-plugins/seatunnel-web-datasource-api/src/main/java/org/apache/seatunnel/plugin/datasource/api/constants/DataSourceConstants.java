@@ -30,6 +30,9 @@ public class DataSourceConstants {
     public static final String COM_DAMENG_JDBC_DRIVER = "dm.jdbc.driver.DmDriver";
     public static final String COM_KINGBASE_JDBC_DRIVER = "com.kingbase8.Driver";
     public static final String COM_KINGBASE_JDCB_DRIVER = COM_KINGBASE_JDBC_DRIVER;
+
+
+
     public static final String ORG_APACHE_KYUUBI_JDBC_DRIVER = "org.apache.kyuubi.jdbc.KyuubiHiveDriver";
     public static final String COM_OCEANBASE_JDBC_DRIVER = "com.oceanbase.jdbc.Driver";
     public static final String NET_SNOWFLAKE_JDBC_DRIVER = "net.snowflake.client.jdbc.SnowflakeDriver";

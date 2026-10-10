@@ -68,9 +68,9 @@ public class SeaTunnelClientActivationService {
                 firstLiveMaster = endpoint;
             }
 
-            if (Boolean.TRUE.equals(endpoint.getActiveMaster())) {
+//            if (Boolean.TRUE.equals(endpoint.getActiveMaster())) {
                 reportedActiveMaster = endpoint;
-            }
+//            }
         }
 
         SeaTunnelClientEndpoint activeMaster = resolveActiveMaster(

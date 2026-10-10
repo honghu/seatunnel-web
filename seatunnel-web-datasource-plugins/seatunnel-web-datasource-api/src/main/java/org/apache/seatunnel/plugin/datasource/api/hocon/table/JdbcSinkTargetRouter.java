@@ -37,7 +37,7 @@ public class JdbcSinkTargetRouter {
 
         List<String> sinkTables = tableNameResolver.resolveSinkTableNames(config);
         JdbcTableMode mode = tableNameResolver.resolveTableMode(config, sinkTables);
-
+        //没有代码满足此条件，前端没有传入multiTable
         if (mode == JdbcTableMode.MULTI) {
             multiBuilder.build(config, conn, map);
             return;

@@ -1,0 +1,20 @@
+spring:
+  config:
+    activate:
+      on-profile: dm
+
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: dm.jdbc.driver.DmDriver
+    url: jdbc:dm://10.151.55.39:5238?schema=SEATUNNEL_WEB
+    username: SYSDBA
+    password: SYSDBA12!@#
+
+  quartz:
+    properties:
+      org.quartz.jobStore.driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate
+
+seatunnel:
+  web:
+    database:
+      type: dm

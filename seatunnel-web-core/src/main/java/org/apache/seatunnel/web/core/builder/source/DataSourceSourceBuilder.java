@@ -214,7 +214,7 @@ public class DataSourceSourceBuilder implements SourceNodeConfigBuilder {
             throw new IllegalArgumentException(
                     "Missing required field '" + KEY_PLUGIN_NAME + "' in source node config");
         }
-        return pluginName.toUpperCase();
+        return pluginName;
     }
 
     private void validateSourceConfig(DataSourceProcessor processor,

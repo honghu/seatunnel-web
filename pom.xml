@@ -121,11 +121,19 @@
                 <artifactId>seatunnel-web-datasource-kingbase</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>org.apache.seatunnel.web</groupId>
                 <artifactId>seatunnel-web-datasource-dameng</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>org.apache.seatunnel.web</groupId>
+                <artifactId>seatunnel-web-datasource-db2</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>org.apache.seatunnel.web</groupId>
                 <artifactId>seatunnel-web-datasource-all</artifactId>

@@ -25,6 +25,7 @@
         <module>seatunnel-web-datasource-doris</module>
         <module>seatunnel-web-datasource-kingbase</module>
         <module>seatunnel-web-datasource-dameng</module>
+        <module>seatunnel-web-datasource-db2</module>
     </modules>
 
 

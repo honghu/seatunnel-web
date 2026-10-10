@@ -9,9 +9,14 @@ springdoc:
   swagger-ui:
     enabled: ${SPRINGDOC_SWAGGER_UI_ENABLED:true}
 
+profiles:
+  active: dev
+
+
+
 spring:
   profiles:
-    active: ${SPRING_PROFILES_ACTIVE:mysql}
+    active: ${SPRING_PROFILES_ACTIVE:dm}
   banner:
     charset: UTF-8
   jackson:
@@ -32,7 +37,7 @@ spring:
       connection-timeout: 15000
       validation-timeout: 5000
   flyway:
-    enabled: ${SPRING_FLYWAY_ENABLED:true}
+    enabled: false
     locations: classpath:db/migration/{vendor}
     table: t_seatunnel_web_schema_history
     validate-on-migrate: true
@@ -43,6 +48,10 @@ spring:
     baseline-description: SeaTunnel Web legacy schema baseline
   application:
     name: seatunnel-web
+  redis:
+    host: 10.151.56.99
+    database: 6
+    password: 'qw!KK.UVdjvD2682'
   main:
     allow-bean-definition-overriding: true
   ai:
@@ -138,4 +147,4 @@ seatunnel:
       fixed-delay-ms: 60000
   web:
     database:
-      type: ${SEATUNNEL_WEB_DATABASE_TYPE:mysql}
+      type: ${SEATUNNEL_WEB_DATABASE_TYPE:dm}

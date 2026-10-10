@@ -242,24 +242,33 @@ public class JdbcTableNameResolver {
                 || containsIgnoreCase(conn, PLUGIN_NAME, "kingbase")
                 || containsIgnoreCase(config, PLUGIN_NAME, "dameng")
                 || containsIgnoreCase(conn, PLUGIN_NAME, "dameng")
+                || containsIgnoreCase(config, PLUGIN_NAME, "db2")
+                || containsIgnoreCase(conn, PLUGIN_NAME, "db2")
                 || containsIgnoreCase(config, DB_TYPE, "postgre")
                 || containsIgnoreCase(conn, DB_TYPE, "postgre")
                 || containsIgnoreCase(config, DB_TYPE, "kingbase")
                 || containsIgnoreCase(conn, DB_TYPE, "kingbase")
                 || containsIgnoreCase(config, DB_TYPE, "dameng")
                 || containsIgnoreCase(conn, DB_TYPE, "dameng")
+                || containsIgnoreCase(config, DB_TYPE, "db2")
+                || containsIgnoreCase(conn, DB_TYPE, "db2")
                 || containsIgnoreCase(config, DRIVER, "postgresql")
                 || containsIgnoreCase(conn, DRIVER, "postgresql")
                 || containsIgnoreCase(config, DRIVER, "kingbase")
                 || containsIgnoreCase(conn, DRIVER, "kingbase")
                 || containsIgnoreCase(config, DRIVER, "dm.jdbc")
                 || containsIgnoreCase(conn, DRIVER, "dm.jdbc")
+                || containsIgnoreCase(config, DRIVER, "db2")
+                || containsIgnoreCase(conn, DRIVER, "db2")
                 || startsWithIgnoreCase(config, URL, "jdbc:postgresql:")
                 || startsWithIgnoreCase(conn, URL, "jdbc:postgresql:")
                 || startsWithIgnoreCase(config, URL, "jdbc:kingbase8:")
                 || startsWithIgnoreCase(conn, URL, "jdbc:kingbase8:")
                 || startsWithIgnoreCase(config, URL, "jdbc:dm:")
-                || startsWithIgnoreCase(conn, URL, "jdbc:dm:");
+                || startsWithIgnoreCase(conn, URL, "jdbc:dm:")
+                || startsWithIgnoreCase(config, URL, "jdbc:db2:")
+                || startsWithIgnoreCase(conn, URL, "jdbc:db2:");
+
     }
 
     private boolean isOracle(Config config, Config conn) {

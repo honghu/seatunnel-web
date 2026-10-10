@@ -223,8 +223,8 @@ public abstract class AbstractJdbcCatalog implements JdbcCatalog {
         }
         return Arrays.stream(tablePath.split("\\."))
                 .map(String::trim)
-                .filter(StringUtils::isNotBlank)
-                .map(this::quoteIdentifier)
+//                .filter(StringUtils::isNotBlank)
+//                .map(this::quoteIdentifier)
                 .collect(Collectors.joining("."));
     }
 

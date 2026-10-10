@@ -4,6 +4,8 @@ public enum Transform {
     REPLACE,
     COPY,
     MULTIFIELDSPLIT,
+
+    FIELDRENAME,
     FIELDMAPPER,
     FILTERROWKIND,
     SPLIT,

@@ -30,7 +30,9 @@
         <module>seatunnel-web-dao-plugin-all</module>
         <module>seatunnel-web-dao-h2</module>
         <module>seatunnel-web-dao-mysql</module>
+        <module>seatunnel-web-dao-dm</module>
         <module>seatunnel-web-dao-postgresql</module>
+        <module>seatunnel-web-dao-db2</module>
     </modules>
 
 </project>

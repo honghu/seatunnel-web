@@ -1,6 +1,7 @@
 package org.apache.seatunnel.web.engine.client.transfrom.domain;
 
 import lombok.Data;
+import org.apache.seatunnel.web.common.enums.ConvertCase;
 
 import java.util.List;
 
@@ -26,4 +27,9 @@ public class FieldMapperConfig {
      * Whether to pass through unmapped fields.
      */
     private Boolean passThroughUnmapped;
+
+    private ConvertCase convertCase;
+
+    private String prefix;
+    private String suffix;
 }

@@ -48,6 +48,8 @@ public class TaskOptionUtils {
                 return convertTransformStrToOptions(
                         transformOptionsStr, SQLTransformOptions.class);
 
+            case FIELDRENAME:return convertTransformStrToOptions(
+                    transformOptionsStr, FieldRenameTransformOptions.class);
             case FILTERROWKIND:
             case REPLACE:
             default:

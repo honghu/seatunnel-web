@@ -38,9 +38,15 @@
             <groupId>org.apache.seatunnel.web</groupId>
             <artifactId>seatunnel-web-datasource-kingbase</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.apache.seatunnel.web</groupId>
             <artifactId>seatunnel-web-datasource-dameng</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.seatunnel.web</groupId>
+            <artifactId>seatunnel-web-datasource-db2</artifactId>
         </dependency>
 
     </dependencies>

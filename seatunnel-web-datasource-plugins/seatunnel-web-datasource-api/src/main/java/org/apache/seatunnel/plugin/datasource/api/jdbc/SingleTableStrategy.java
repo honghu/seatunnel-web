@@ -22,7 +22,7 @@ public class SingleTableStrategy implements QueryStrategy {
             throw new IllegalArgumentException("table is null");
         }
 
-        return catalog.buildCountQuery(tablePath.getTableName());
+        return catalog.buildCountQuery(catalog.buildTableReference(tablePath));
     }
 
     @Override
